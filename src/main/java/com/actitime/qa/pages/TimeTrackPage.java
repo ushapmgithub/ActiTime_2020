@@ -5,7 +5,7 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+//import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -45,6 +45,9 @@ public class TimeTrackPage extends TestBase {
 	@FindBy(xpath = "//div[text()='Create Tasks']")
 	WebElement createTaskBtn;
 	
+	@FindBy(id = "container_users")
+	WebElement usersTab;
+	
 	//initialization
 	public TimeTrackPage() {
 		PageFactory.initElements(driver, this);
@@ -58,7 +61,7 @@ public class TimeTrackPage extends TestBase {
 	public void clickNewTask() {
 		newTask.click();
 		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.visibilityOf(customerDropDown));
+		wait.until(ExpectedConditions.elementToBeClickable(customerDropDown));
 	}
 	
 	public void setNewCustomer() throws InterruptedException {
@@ -74,7 +77,7 @@ public class TimeTrackPage extends TestBase {
 				break;
 			}
 		}*/
-		/*
+		
 		// Create instance of Javascript executor
 		JavascriptExecutor je = (JavascriptExecutor) driver;
 		//Identify the WebElement which will appear after scrolling down
@@ -83,14 +86,14 @@ public class TimeTrackPage extends TestBase {
 		int x = element.getLocation().getX();
 		int y = element.getLocation().getY();
 		je.executeScript("window.scrollTo("+x+","+y+")");
-		je.executeScript("arguments[0].click()", element);*/
+		je.executeScript("arguments[0].click()", element);
 		
 		// Create instance of Javascript executor
-		JavascriptExecutor je = (JavascriptExecutor) driver;
+		//JavascriptExecutor je = (JavascriptExecutor) driver;
 		//Identify the WebElement which will appear after scrolling down
-		WebElement element = driver.findElement(By.xpath("//div[text()='- New Customer -']"));
+		//WebElement element = driver.findElement(By.xpath("//div[text()='- New Customer -']"));
 		// now execute query which actually will scroll until that element is not appeared on page.
-		je.executeScript("arguments[0].scrollIntoView(true);",element);
+		//je.executeScript("arguments[0].scrollIntoView(true);",element);
 		
 	}
 	
@@ -124,5 +127,12 @@ public class TimeTrackPage extends TestBase {
 	
 	public void clickCreateTaskBtn() {
 		createTaskBtn.click();
+	}
+	
+	public UsersPage gotoUsersPage() {
+		usersTab.click();
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		wait.until(ExpectedConditions.titleContains("actiTIME - User List"));
+		return new UsersPage();
 	}
 }

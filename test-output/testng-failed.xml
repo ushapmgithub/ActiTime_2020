@@ -3,13 +3,12 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.actitime.qa.testcases.TimeTrackPageTest">
+      <class name="com.actitime.qa.testcases.UsersPageTest">
         <methods>
+          <include name="createNewUserTest"/>
           <include name="setUp"/>
-          <include name="tearDown"/>
-          <include name="createNewTaskTest"/>
         </methods>
-      </class> <!-- com.actitime.qa.testcases.TimeTrackPageTest -->
+      </class> <!-- com.actitime.qa.testcases.UsersPageTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
