@@ -13,6 +13,12 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class TestUtil {
 	public static long PAGE_LOAD_TIMEOUT = 20;
 	public static long IMPLICIT_WAIT = 10;
+	public static int noOfValues(String sheetName) throws InvalidFormatException, IOException {
+		FileInputStream fis = new FileInputStream(".//UserList.xlsx");
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sh = wb.getSheet(sheetName);
+		return sh.getLastRowNum();
+	}
 	public static String readDataFromExcel(String sheetName, int rowNum, int cellNum) throws InvalidFormatException, IOException {
 		FileInputStream fis = new FileInputStream(".//UserList.xlsx");
 		Workbook wb = WorkbookFactory.create(fis);

@@ -1,8 +1,8 @@
 package com.actitime.qa.pages;
 
-import java.io.IOException;
+import java.util.List;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -10,13 +10,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.actitime.qa.base.TestBase;
-import com.actitime.qa.util.TestUtil;
 
 public class UsersPage extends TestBase {
 	//declaration
-	//@FindBy(id = "container_users")
-	//WebElement usersTab;
-	
 	@FindBy(xpath = "//div[text()='New User']")
 	WebElement newUser;
 	
@@ -30,7 +26,25 @@ public class UsersPage extends TestBase {
 	WebElement lastName;
 	
 	@FindBy(id = "createUserPanel_emailField")
-	WebElement email;
+	WebElement emailId;
+	
+	@FindBy(xpath = "//div[@class='simpleListMenuButton components_userGroupSelectorMenu emptyList notEmpty']")
+	WebElement deptDropDown;
+	
+	@FindBy(xpath = "//div[@class='item']")
+	List<WebElement> deptList;
+	
+	@FindBy(xpath = "(//input[@name='newUserGroupName'])[2]")
+	WebElement newDept;
+	
+	@FindBy(xpath = "//div[@class='components_button submitBtn']")
+	WebElement saveAndSendInvitationBtn;
+	
+	@FindBy(xpath = "(//span[text()='Close'])[1]")
+	WebElement closeBtn;
+	
+	@FindBy(xpath = "(//div[@class='inviteOneMoreButton'])[1]")
+	WebElement inviteOneMoreUser;
 	
 	//initialization
 	public UsersPage() {
@@ -38,17 +52,63 @@ public class UsersPage extends TestBase {
 	}
 		
 	//utilization
+	public void clickNewUser() {
+		newUser.click();
+		WebDriverWait wait = new WebDriverWait(driver, 20);
+		wait.until(ExpectedConditions.visibilityOf(addUserPage));
+		/*firstName.sendKeys(TestUtil.readDataFromExcel("Sheet1", 1, 0));
+		lastName.sendKeys(TestUtil.readDataFromExcel("Sheet1", 1, 1));
+		email.sendKeys(TestUtil.readDataFromExcel("Sheet1", 1, 2));*/
+	}
+	
 	public String validateUsersTitle() {
 		return driver.getTitle();
 	}
 	
-	public void createNewUser() throws InvalidFormatException, IOException {
-		newUser.click();
-		WebDriverWait wait = new WebDriverWait(driver, 20);
-		wait.until(ExpectedConditions.visibilityOf(addUserPage));
-		firstName.sendKeys(TestUtil.readDataFromExcel("Sheet1", 1, 0));
-		lastName.sendKeys(TestUtil.readDataFromExcel("Sheet1", 1, 1));
-		email.sendKeys(TestUtil.readDataFromExcel("Sheet1", 1, 2));
+	public void enterFirstName(String first) {
+		firstName.sendKeys(first);
 	}
-			
+	
+	public void enterLastName(String last) {
+		lastName.sendKeys(last);
+	}
+	
+	public void enteremail(String email) {
+		emailId.sendKeys(email);
+	}
+	
+	public void selectDept(String department) {
+		deptDropDown.click();
+		JavascriptExecutor je = (JavascriptExecutor) driver;
+		for(WebElement dept : deptList) {
+			String text = dept.getText();
+			if(text.contains(department) || department.isEmpty() || text.contains("department not assigned")) {
+				int x = dept.getLocation().getX();
+				int y = dept.getLocation().getY();
+				je.executeScript("window.scrollTo("+x+","+y+")");
+				je.executeScript("arguments[0].click()", dept);
+				break;
+			}
+			else if(text.contains("new department")) {
+				int x = dept.getLocation().getX();
+				int y = dept.getLocation().getY();
+				je.executeScript("window.scrollTo("+x+","+y+")");
+				je.executeScript("arguments[0].click()", dept);
+				newDept.sendKeys(department);;
+				break;
+			}
+		}
+	}
+	
+	public void saveAndSendInvitation() {
+		saveAndSendInvitationBtn.click();
+	}
+	
+	public void inviteOneMoreUser() {
+		inviteOneMoreUser.click();
+	}
+	
+	public void closeAddUser() {
+		closeBtn.click();
+	}
 }
