@@ -2,6 +2,7 @@ package com.actitime.qa.pages;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -78,8 +79,9 @@ public class UsersPage extends TestBase {
 	}
 	
 	public void selectDept(String department) {
-		deptDropDown.click();
 		JavascriptExecutor je = (JavascriptExecutor) driver;
+		deptDropDown.click();
+		
 		for(WebElement dept : deptList) {
 			String text = dept.getText();
 			if(text.contains(department) || department.isEmpty() || text.contains("department not assigned")) {
@@ -89,14 +91,21 @@ public class UsersPage extends TestBase {
 				je.executeScript("arguments[0].click()", dept);
 				break;
 			}
-			else if(text.contains("new department")) {
+			else if(department. || department.contains("department not assigned") || text.contains("department not assigned")) {
+				int x = dept.getLocation().getX();
+				int y = dept.getLocation().getY();
+				je.executeScript("window.scrollTo("+x+","+y+")");
+				je.executeScript("arguments[0].click()", dept);
+				break;
+			}
+			/*else {
 				int x = dept.getLocation().getX();
 				int y = dept.getLocation().getY();
 				je.executeScript("window.scrollTo("+x+","+y+")");
 				je.executeScript("arguments[0].click()", dept);
 				newDept.sendKeys(department);;
 				break;
-			}
+			}*/
 		}
 	}
 	

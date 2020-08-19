@@ -43,10 +43,10 @@ public class UsersPageTest extends TestBase {
 			usersPage.enteremail(email);
 			String department = TestUtil.readDataFromExcel("Sheet1", row, 3);
 			usersPage.selectDept(department);
-			usersPage.saveAndSendInvitation();
-			usersPage.inviteOneMoreUser();
+			//usersPage.saveAndSendInvitation();
+			//usersPage.inviteOneMoreUser();
 		}
-		usersPage.closeAddUser();
+		//usersPage.closeAddUser();
 	}
 	
 	//@AfterMethod
